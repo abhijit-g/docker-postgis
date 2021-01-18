@@ -10,7 +10,8 @@ ARG IMAGE_VERSION
 ARG POSTGRES_MAJOR_VERSION=13
 ARG POSTGIS_MAJOR=3
 
-RUN adduser postgres root
+RUN useradd −u 8877 taodbuser
+RUN adduser taodbuser root
 
 RUN set -eux \
     && export DEBIAN_FRONTEND=noninteractive \
@@ -70,14 +71,14 @@ RUN set -eux \
 VOLUME /var/lib/postgresql
 
 RUN chmod -R 775 /var/lib/postgresql
-RUN chown -R postgres:root /var/lib/postgresql
+RUN chown -R taodbuser:root /var/lib/postgresql
 
 RUN chmod -R 775 /etc/postgresql
-RUN chown -R postgres:root /etc/postgresql
+RUN chown -R taodbuser:root /etc/postgresql
 
 RUN chmod -R 775 /usr/lib/postgresql
-RUN chown -R postgres:root /usr/lib/postgresql
+RUN chown -R taodbuser:root /usr/lib/postgresql
 
-USER postgres
+USER 8877
 
 ENTRYPOINT /scripts/docker-entrypoint.sh
